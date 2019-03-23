@@ -7,7 +7,7 @@ var topicList = ["Bagpipes", "Hand Planes", "Space", "Frozen"];
 showButtons();
 
 $("#button-div").on("click", "button", onClickButton)
-
+$("#pic-div").on("click", "img", onClickPic)
 
 
 
@@ -52,9 +52,24 @@ function onClickButton() {
                 if (ajaxData[i].rating !== "r" && ajaxData[i].rating !== "pg-13") {
 
                     var newP = $("<p>").text("Rating: " + ajaxData[i].rating);
+
                     var newImg = $("<img>");
-                    newImg.attr("src", ajaxData[i].images.fixed_height.url);
+                    newImg.attr("src", ajaxData[i].images.original_still.url);
                     newImg.attr("height", "200px");
+                    newImg.attr("data-still", ajaxData[i].images.original_still.url);
+                    newImg.attr("data-animate", ajaxData[i].images.original.url);
+                    newImg.attr("data-state", "still");
+
+                    var ajaxDataImages = ajaxData[i].images
+                    console.log ("ajaxDataImages",ajaxDataImages)
+
+                    // <img
+                    // src="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
+                    // data-still="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200_s.gif"
+                    // data-animate="https://media1.giphy.com/media/3o85xkQpyMlnBkpB9C/200.gif"
+                    // data-state="still"
+                    // class="gif"
+              
 
                     var newDiv = $("<div>");
                     newDiv.append(newP);
@@ -65,5 +80,21 @@ function onClickButton() {
             }
         });
 };
+
+
+
+function onClickPic () {
+
+    console.log ("onClickPic was called")
+
+    var state = $(this).attr("data-state");
+    if (state === "still") {
+      $(this).attr("src", $(this).attr("data-animate"));
+      $(this).attr("data-state", "animate");
+    } else {
+      $(this).attr("src", $(this).attr("data-still"));
+      $(this).attr("data-state", "still");
+    }
+  };
 
 
